@@ -17,6 +17,7 @@
 
 import numpy
 
+#This class has function to get informations about one channel. Instances of these class could be accessed by the class Rigol scope
 class RigolScopeChannel:
     
     def __init__(self, rigolScope, channelName):
@@ -37,7 +38,7 @@ class RigolScopeChannel:
         data = numpy.frombuffer(rawdata, 'B')
 
         # Walk through the data, and map it to actual voltages
-        # First invert the data (ya rly)
+        # First invert the data
         data = data * -1 + 255
         
         voltscale = self.getVoltageScale();

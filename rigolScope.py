@@ -76,18 +76,18 @@ class RigolScope:
         
     def getTimeAxis(self):
         timescale = self.getTimeScale()
-        # Now, generate a time axis.  The scope display range is 0-600, with 300 being
-        # time zero.
+        # Generate a time axis.  The scope display range is 0-600, with 300 being time zero.
         time = numpy.arange(-300.0/50*timescale, 300.0/50*timescale, timescale/50.0)
         
         return time
     
     def getTimeAxisUnit(self):
+        time = self.getTimeAxis()
         if (time[599] < 1e-3):
-            time = time * 1e6
             tUnit = "uS"
         elif (time[599] < 1):
-            time = time * 1e3
             tUnit = "mS"
         else:
             tUnit = "S"
+            
+        return tUnit

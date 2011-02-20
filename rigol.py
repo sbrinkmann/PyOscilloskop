@@ -67,7 +67,7 @@ scope.reactivateControlButtons()
 
 # Plot the data
 plot.plot(time, channel1Data)
-plot.plot(time, channel2Data)
+#plot.plot(time, channel2Data)
 plot.title("Oscilloscope Channel 1")
 plot.ylabel("Voltage (V)")
 plot.xlabel("Time (" + tUnit + ")")

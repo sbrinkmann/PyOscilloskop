@@ -19,11 +19,21 @@
 
 import matplotlib.pyplot as plot
 import rigolScope
+import sys
+import usbtmc
  
 """ Example program to plot the Y-T data from Channel 1"""
- 
+
+listOfDevices = usbtmc.getDeviceList()
+
+systemArguments = sys.argv
+
 # Initialize our scope
-scope = rigolScope.RigolScope("/dev/usbtmc0")
+if(len(listOfDevices) == 0):
+    print "You need one or more devices"
+    pass 
+
+scope = rigolScope.RigolScope(listOfDevices[0])
 
 print scope.getName()
 print ""
@@ -47,8 +57,6 @@ print "Timescale offset: ", scope.getTimescaleOffset(), "sec"
 
 time = scope.getTimeAxis();
 
-print "Time axis size: ", time.size
-print time[599]
 
 # See if we should use a different time axis
 if (time[599] < 1e-3):
@@ -68,7 +76,7 @@ scope.reactivateControlButtons()
 # Plot the data
 plot.plot(time, channel1Data)
 #plot.plot(time, channel2Data)
-plot.title("Oscilloscope Channel 1")
+plot.title("Oscilloskop")
 plot.ylabel("Voltage (V)")
 plot.xlabel("Time (" + tUnit + ")")
 plot.xlim(time[0], time[599])

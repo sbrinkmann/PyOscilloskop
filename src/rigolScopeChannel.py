@@ -49,4 +49,6 @@ class RigolScopeChannel:
         # get the actual voltage.
         data = (data - 130.0 - voltoffset/voltscale*25) / 25 * voltscale
         
+        data = data[0:600:1]
+        
         return data

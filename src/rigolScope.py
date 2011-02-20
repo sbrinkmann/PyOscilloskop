@@ -17,7 +17,7 @@
 
 import usbtmc
 import rigolScopeChannel
-import numpy
+import timeAxis
         
 class RigolScope:
     CHANNEL1 = "CHAN1"
@@ -28,10 +28,26 @@ class RigolScope:
 
     """Class to control a Rigol DS1000 series oscilloscope"""
     def __init__(self, device):
-        self.meas = usbtmc.UsbTmcDriver(device)
+        self.device = device
+        self.initScope()
+
+    def __init__(self):
+        listOfDevices = usbtmc.getDeviceList()
+        if(len(listOfDevices) == 0):
+            raise ValueError("There is device to access")
+
+        self.device = listOfDevices[0]
+        self.initScope()
+
+    def initScope(self):
+        print "Connection to device: " + self.device
+
+        self.meas = usbtmc.UsbTmcDriver(self.device)
+
+        print "Devicename: " + self.getName()
 
         self.channel1 = rigolScopeChannel.RigolScopeChannel(self, self.CHANNEL1);
-        self.channel2 = rigolScopeChannel.RigolScopeChannel(self, self.CHANNEL2);
+        self.channel2 = rigolScopeChannel.RigolScopeChannel(self, self.CHANNEL2);        
         
     def write(self, command):
         """Send an arbitrary command directly to the scope"""
@@ -47,6 +63,9 @@ class RigolScope:
 
     def getName(self):
         return self.meas.getName()
+
+    def getDevice(self):
+        return self.device
         
     def run(self):
         self.write(":RUN")
@@ -75,19 +94,4 @@ class RigolScope:
         return self.getScopeInformation(self.TIME_SCALE, self.OFFSET)
         
     def getTimeAxis(self):
-        timescale = self.getTimeScale()
-        # Generate a time axis.  The scope display range is 0-600, with 300 being time zero.
-        time = numpy.arange(-300.0/50*timescale, 300.0/50*timescale, timescale/50.0)
-        
-        return time
-    
-    def getTimeAxisUnit(self):
-        time = self.getTimeAxis()
-        if (time[599] < 1e-3):
-            tUnit = "uS"
-        elif (time[599] < 1):
-            tUnit = "mS"
-        else:
-            tUnit = "S"
-            
-        return tUnit
+        return timeAxis.TimeAxis(self.getTimeScale())

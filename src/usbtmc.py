@@ -38,3 +38,13 @@ class UsbTmcDriver:
  
     def sendReset(self):
         self.write("*RST")
+
+def getDeviceList():
+    dirList=os.listdir("/dev")
+    result=list()
+
+    for fname in dirList:
+        if(fname.startswith("usbtmc")):
+            result.append("/dev/" + fname)
+
+    return result

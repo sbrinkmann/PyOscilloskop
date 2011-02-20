@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -11,6 +11,34 @@
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
+            <child>
+              <object class="GtkHBox" id="hbox3">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="labelConnectedTo">
+                    <property name="visible">True</property>
+                    <property name="xalign">0.89999997615814209</property>
+                    <property name="label" translatable="yes">Connected to device:</property>
+                    <property name="width_chars">1</property>
+                  </object>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="labelConnectedToDevice">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">...</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
             <child>
               <object class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
@@ -44,7 +72,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="invisible_char">●</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -56,7 +84,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="invisible_char">●</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -87,6 +115,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -137,7 +166,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="invisible_char">●</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -149,7 +178,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="invisible_char">●</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -169,6 +198,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -182,14 +212,14 @@
                 </child>
               </object>
               <packing>
-                <property name="position">0</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkLabel" id="labelTimeAx&#xED;s">
+                  <object class="GtkLabel" id="labelTimeAxís">
                     <property name="visible">True</property>
                     <property name="xalign">0.10000000149011612</property>
                     <property name="label" translatable="yes">Time Axis</property>
@@ -233,7 +263,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="editable">False</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -245,7 +275,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="editable">False</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -261,7 +291,7 @@
                 </child>
               </object>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -273,7 +303,7 @@
                 <property name="draw_indicator">True</property>
               </object>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -281,16 +311,17 @@
                 <property name="visible">True</property>
                 <property name="left_padding">300</property>
                 <child>
-                  <object class="GtkButton" id="button">
-                    <property name="label" translatable="yes">Download</property>
+                  <object class="GtkButton" id="buttonShow">
+                    <property name="label" translatable="yes">Show</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_buttonShow_clicked"/>
                   </object>
                 </child>
               </object>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>

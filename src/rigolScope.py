@@ -27,16 +27,15 @@ class RigolScope:
     OFFSET = "OFFS?"
 
     """Class to control a Rigol DS1000 series oscilloscope"""
-    def __init__(self, device):
-        self.device = device
-        self.initScope()
-
-    def __init__(self):
-        listOfDevices = usbtmc.getDeviceList()
-        if(len(listOfDevices) == 0):
-            raise ValueError("There is device to access")
-
-        self.device = listOfDevices[0]
+    def __init__(self, device = None):
+        if(device == None):
+            listOfDevices = usbtmc.getDeviceList()
+            if(len(listOfDevices) == 0):
+                raise ValueError("There is device to access")
+    
+            self.device = listOfDevices[0]
+        else:
+            self.device = device
         self.initScope()
 
     def initScope(self):

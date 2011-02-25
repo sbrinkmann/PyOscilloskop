@@ -54,11 +54,7 @@ choosenDevice = listOfDevices[0]
 
 scope = rigolScope.RigolScope(choosenDevice)
 
-channel1Data = scope.getChannel1().getData();
-channel1Data = channel1Data[0:600:1]
 
-channel2Data = scope.getChannel2().getData();
-channel2Data = channel2Data[0:600:1]
 
 if(options.informations != None):
     print "Device: ", choosenDevice
@@ -66,11 +62,9 @@ if(options.informations != None):
     
     print "Channel 1 - Voltage scale: ", scope.getChannel1().getVoltageScale(), "V/div"
     print "Channel 1 - Voltage offset: ", scope.getChannel1().getVoltageOffset(), "V"
-    print "Channel 1 - Data: ", channel1Data.size
     
     print "Channel 2 - Voltage scale: ", scope.getChannel2().getVoltageScale(), "V/div"
     print "Channel 2 - Voltage offset: ", scope.getChannel2().getVoltageOffset(), "V"
-    print "Channel 1 - Data: ", channel1Data.size
     
     print "Timescale: ", scope.getTimeScale(), "sec/div"
     print "Timescale offset: ", scope.getTimescaleOffset(), "sec"
@@ -78,7 +72,13 @@ if(options.informations != None):
 """You have to reactivate the keys on the scope after every access over the usb interface"""
 scope.reactivateControlButtons()
 
-def fillPlot(options, channel1Data, channel2Data):
+def fillPlot(options):
+    channel1Data = scope.getChannel1().getData();
+    channel1Data = channel1Data[0:600:1]
+    
+    channel2Data = scope.getChannel2().getData();
+    channel2Data = channel2Data[0:600:1]
+
     time = scope.getTimeAxis();
     
     timeAxis = time.getTimeAxis()
@@ -98,7 +98,9 @@ def fillPlot(options, channel1Data, channel2Data):
     plot.xlim(timeAxis[0], timeAxis[599])
 
 if(options.savePlot != None or options.plot != None):
-    fillPlot(options, channel1Data, channel2Data)
+    fillPlot(options)
+    
+scope.reactivateControlButtons()
 
 if(options.savePlot != None):
     print "Save plot to: ", options.savePlot
@@ -112,3 +114,4 @@ if(options.plot != None):
     else:
         """Plot the data"""
         plot.show()
+

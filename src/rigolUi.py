@@ -19,6 +19,9 @@
 
 import gtk
 import rigolScope
+import matplotlib.pyplot as plot
+import pylab
+import threading
 
 class RigolUI(object):
     def __init__(self):
@@ -28,6 +31,7 @@ class RigolUI(object):
         self.scope = rigolScope.RigolScope();
         self.win =  self.builder.get_object('window1')
         self.win.set_title("Oscilloskope remote control")
+        self.figureCounter = 1
         
         self.showOscilloskopInformations()
         
@@ -61,33 +65,15 @@ class RigolUI(object):
         dlg.destroy()
 
     def on_buttonShow_clicked(self, *args):
-        channel1Active = self.builder.get_object("checkChannel1Showchannel").get_active()
-        channel2Active = self.builder.get_object("checkChannel2Showchannel").get_active()
+        thread = threading.Thread(target=self.plotFigure)
+        thread.start()
+        print "Running in main thread"
         
-        if(channel1Active == False and channel2Active == False):
-            self.info_msg("Please select a channel first.")
-            return
-        
-        timeAxis = self.scope.getTimeAxis()
-        time = timeAxis.getTimeAxis()
-        
-        import matplotlib.pyplot as plot
-        
-        if(channel1Active):
-            plot.plot(time, self.scope.getChannel1().getData())
-        if(channel2Active):    
-            plot.plot(time, self.scope.getChannel2().getData())
-        
-        plot.title("Oscilloskop")
-        plot.ylabel("Voltage (V)")
-        plot.xlabel("Time (" + timeAxis.getUnit() + ")")
-        plot.xlim(time[0], time[599])
-        plot.plot()
-        plot.savefig("test.png")
-        
-        self.scope.reactivateControlButtons()
+    def plotFigure(self):
+        print "Plot figure"
 
 if __name__ == '__main__':
     rigolUiApp = RigolUI()
     rigolUiApp.run()
+    
     

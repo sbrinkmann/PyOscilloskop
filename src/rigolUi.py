@@ -19,8 +19,7 @@
 
 import gtk
 import rigolScope
-import matplotlib.pyplot as plot
-import pylab
+import os
 import threading
 
 class RigolUI(object):
@@ -40,12 +39,16 @@ class RigolUI(object):
         builder = self.builder
         
         builder.get_object("labelConnectedToDevice").set_text(scope.getName() + " (" + scope.getDevice() + ")")
+        builder.get_object("checkChannel1Showchannel").set_active(scope.getChannel1().isChannelActive())
         builder.get_object("textChannel1Voltage").set_text(str(scope.getChannel1().getVoltageScale()) + " V/DIV")
         builder.get_object("textChannel1Offset").set_text(str(scope.getChannel1().getVoltageOffset()) + " V")
-        builder.get_object("textChannel2Voltage").set_text(str(scope.getChannel2().getVoltageOffset()) + " V")
+        builder.get_object("checkChannel2Showchannel").set_active(scope.getChannel2().isChannelActive())
+        builder.get_object("textChannel2Voltage").set_text(str(scope.getChannel2().getVoltageScale()) + " V/DIV")
         builder.get_object("textChannel2Offset").set_text(str(scope.getChannel2().getVoltageOffset()) + " V")
         builder.get_object("textTimeAxisScale").set_text(str(scope.getTimeScale()) + "S/DIV")
         builder.get_object("textTimeAxisOffset").set_text(str(scope.getTimescaleOffset()) + " S")
+        
+        scope.reactivateControlButtons()
 
     def run(self):
         try:
@@ -65,13 +68,29 @@ class RigolUI(object):
         dlg.destroy()
 
     def on_buttonShow_clicked(self, *args):
-        thread = threading.Thread(target=self.plotFigure)
-        thread.start()
-        print "Running in main thread"
+        self.plotFigure()
+        #thread = threading.Thread(target=self.plotFigure)
+        #thread.start()
+        #print "Running in main thread\n"
         
     def plotFigure(self):
         print "Plot figure"
+        
+        parameter = " -p"
+        if(self.builder.get_object("checkRestartAfterAquring").get_active()):
+            parameter += " -r"
+        
+        if(not(self.builder.get_object("checkChannel1Showchannel").get_active())):
+            parameter += " -1"
+            
+        if(not(self.builder.get_object("checkChannel2Showchannel").get_active())):
+            parameter += " -2"
+            
+        os.system("./rigolCli.py " + parameter)
+            
+        
 
+        
 if __name__ == '__main__':
     rigolUiApp = RigolUI()
     rigolUiApp.run()

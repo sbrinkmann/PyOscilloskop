@@ -115,7 +115,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -198,7 +197,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -296,7 +294,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="checkRestartAfterAquring">
-                <property name="label" translatable="yes">Restart after downloading</property>
+                <property name="label" translatable="yes">Restart after plot</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>

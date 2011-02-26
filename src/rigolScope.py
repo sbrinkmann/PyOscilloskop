@@ -22,9 +22,10 @@ import timeAxis
 class RigolScope:
     CHANNEL1 = "CHAN1"
     CHANNEL2 = "CHAN2"
-    TIME_SCALE = "TIM"
-    SCALE = "SCAL?"
-    OFFSET = "OFFS?"
+    GET_TIME_SCALE = "TIM"
+    GET_SCALE = "SCAL?"
+    GET_OFFSET = "OFFS?"
+    GET_DISPLAY_ACTIVE = "DISPlay?"
 
     """Class to control a Rigol DS1000 series oscilloscope"""
     def __init__(self, device = None):
@@ -74,11 +75,23 @@ class RigolScope:
         
     def reactivateControlButtons(self):
         self.write(":KEY:FORC")
-        
-    def getScopeInformation(self, channel, command):
+    
+    def getScopeInformation(self, channel, command, readBytes):
         self.write(":" + channel + ":" + command)
-        channelInformation = float(self.read(20))
-        return channelInformation
+        return self.read(readBytes)
+        
+    def getScopeInformationFloat(self, channel, command):
+        rawScopeInformation = self.getScopeInformation(channel, command, 20)
+        floatScopeInformation = float(rawScopeInformation)
+        return floatScopeInformation
+    
+    def getScopeInformationInteger(self, channel, command):
+        rawScopeInformation = self.getScopeInformation(channel, command, 20)
+        floatScopeInformation = int(rawScopeInformation)
+        return floatScopeInformation
+    
+    def getScopeInformationString(self, channel, command, readBytes):
+        return self.getScopeInformation(channel, command, readBytes)
         
     def getChannel1(self):
         return self.channel1
@@ -87,10 +100,10 @@ class RigolScope:
         return self.channel2
         
     def getTimeScale(self):
-        return self.getScopeInformation(self.TIME_SCALE, self.SCALE)
+        return self.getScopeInformationFloat(self.GET_TIME_SCALE, self.GET_SCALE)
         
     def getTimescaleOffset(self):
-        return self.getScopeInformation(self.TIME_SCALE, self.OFFSET)
+        return self.getScopeInformationFloat(self.GET_TIME_SCALE, self.GET_OFFSET)
         
     def getTimeAxis(self):
         return timeAxis.TimeAxis(self.getTimeScale())

@@ -26,18 +26,14 @@ from time import strftime
 
 parser = OptionParser()
 parser.add_option("-p", "--plot", action="store_false", help="Shows the window with the plot")
-parser.add_option("-1", "--channel1", action="store_false", help="Activates Channel 1")
-parser.add_option("-2", "--channel2", action="store_false", help="Activates Channel 2")
+parser.add_option("-1", "--hideChannel1", action="store_true", default=False, help="Hides Channel 1 in the plot")
+parser.add_option("-2", "--hideChannel2", action="store_true", default=False, help="Hides Channel 1 in the plot")
 parser.add_option("-i", "--informations", action="store_false", help="Prints scope informations")
 parser.add_option("-s", "--savePlot", metavar="filename", help="Saves the plot into a image")
 parser.add_option("-t", "--title", metavar="title", help="Set the title of the plot")
 parser.add_option("-d", "--hideDate", action="store_true", default=False, help="Hides the date in the plot")
 
-
 (options, args) = parser.parse_args()
-
-print options
-
  
 """ Example program to plot the Y-T data from Channel 1"""
 
@@ -60,9 +56,11 @@ if(options.informations != None):
     print "Device: ", choosenDevice
     print "Name: ", scope.getName()
     
+    print "Channel 1 - Active: ", scope.getChannel1().isChannelActive()
     print "Channel 1 - Voltage scale: ", scope.getChannel1().getVoltageScale(), "V/div"
     print "Channel 1 - Voltage offset: ", scope.getChannel1().getVoltageOffset(), "V"
     
+    print "Channel 2 - Active: ", scope.getChannel2().isChannelActive()
     print "Channel 2 - Voltage scale: ", scope.getChannel2().getVoltageScale(), "V/div"
     print "Channel 2 - Voltage offset: ", scope.getChannel2().getVoltageOffset(), "V"
     
@@ -83,9 +81,9 @@ def fillPlot(options):
     
     timeAxis = time.getTimeAxis()
     
-    if (options.channel1 != None):
+    if (not(options.hideChannel1) and scope.getChannel1().isChannelActive()):
         plot.plot(timeAxis, channel1Data)
-    if (options.channel2 != None):
+    if (not(options.hideChannel2) and scope.getChannel2().isChannelActive()):
         plot.plot(timeAxis, channel2Data)
     title = "Oscilloskop"
     if(options.title != None):
@@ -108,10 +106,6 @@ if(options.savePlot != None):
     plot.savefig(options.savePlot)
 
 if(options.plot != None):
-    
-    if(options.channel1 == None and options.channel2 == None):
-        print "You need to active channel 1 and/or channel 2 to open to show the plot"
-    else:
         """Plot the data"""
         plot.show()
 

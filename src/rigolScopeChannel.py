@@ -25,10 +25,13 @@ class RigolScopeChannel:
         self.channelName = channelName
         
     def getVoltageScale(self):
-        return self.rigolScope.getScopeInformation(self.channelName, self.rigolScope.SCALE)
+        return self.rigolScope.getScopeInformationFloat(self.channelName, self.rigolScope.GET_SCALE)
         
     def getVoltageOffset(self):
-        return self.rigolScope.getScopeInformation(self.channelName, self.rigolScope.OFFSET)
+        return self.rigolScope.getScopeInformationFloat(self.channelName, self.rigolScope.GET_OFFSET)
+    
+    def isChannelActive(self):
+        return self.rigolScope.getScopeInformationInteger(self.channelName, self.rigolScope.GET_DISPLAY_ACTIVE) == 1
         
     def getData(self):
         self.rigolScope.write(":WAV:POIN:MODE NOR")
@@ -42,12 +45,17 @@ class RigolScopeChannel:
         data = data * -1 + 255
         
         voltscale = self.getVoltageScale();
-        voltoffset= self.getVoltageOffset();
+        voltoffset = self.getVoltageOffset();
         
+        print "Offset: ", voltoffset/voltscale*25
+                
         # Now, we know from experimentation that the scope display range is actually
         # 30-229.  So shift by 130 - the voltage offset in counts, then scale to
         # get the actual voltage.
         data = (data - 130.0 - voltoffset/voltscale*25) / 25 * voltscale
+        
+        #Sets the voltage offset
+        data = data + voltoffset/voltscale
         
         data = data[0:600:1]
         

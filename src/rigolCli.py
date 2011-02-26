@@ -32,6 +32,7 @@ parser.add_option("-i", "--informations", action="store_false", help="Prints sco
 parser.add_option("-s", "--savePlot", metavar="filename", help="Saves the plot into a image")
 parser.add_option("-t", "--title", metavar="title", help="Set the title of the plot")
 parser.add_option("-d", "--hideDate", action="store_true", default=False, help="Hides the date in the plot")
+parser.add_option("-r", "--restart", action="store_true", default=False, help="Restart require after plot")
 
 (options, args) = parser.parse_args()
  
@@ -98,6 +99,9 @@ def fillPlot(options):
 if(options.savePlot != None or options.plot != None):
     fillPlot(options)
     
+if(options.restart):
+    scope.run()
+    
 scope.reactivateControlButtons()
 
 if(options.savePlot != None):
@@ -108,4 +112,6 @@ if(options.savePlot != None):
 if(options.plot != None):
         """Plot the data"""
         plot.show()
+        
+
 

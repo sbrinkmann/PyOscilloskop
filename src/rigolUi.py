@@ -20,19 +20,22 @@
 import gtk
 import rigolScope
 import os
-import threading
 
 class RigolUI(object):
     def __init__(self):
         self.builder = gtk.Builder()
         self.builder.add_from_file("oscilloskopControl.glade")
         self.builder.connect_signals(self)
-        self.scope = rigolScope.RigolScope();
         self.win =  self.builder.get_object('window1')
-        self.win.set_title("Oscilloskope remote control")
-        self.figureCounter = 1
-        
-        self.showOscilloskopInformations()
+        try:
+            self.scope = rigolScope.RigolScope()
+            self.win.set_title("Oscilloskope remote control")
+            self.figureCounter = 1
+            
+            self.showOscilloskopInformations()
+        except ValueError:
+            self.info_msg("You have to turn on your scope and connect it to the computer.")
+            self.quit()
         
     def showOscilloskopInformations(self):
         scope = self.scope

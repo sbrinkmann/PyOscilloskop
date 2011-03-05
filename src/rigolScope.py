@@ -32,7 +32,7 @@ class RigolScope:
         if(device == None):
             listOfDevices = usbtmc.getDeviceList()
             if(len(listOfDevices) == 0):
-                raise ValueError("There is device to access")
+                raise ValueError("There is no device to access")
     
             self.device = listOfDevices[0]
         else:

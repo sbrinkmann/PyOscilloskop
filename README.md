@@ -1,5 +1,10 @@
+PyOscilloskop
+=============
+
 This python library/application could control a Rigol Oscilloskop on linux over the USBTMC driver
 
-Author: Sascha Brinkmann
-Date: 19.02.2011
+Author
+------
+Sascha Brinkmann (19.02.2011)
+
 

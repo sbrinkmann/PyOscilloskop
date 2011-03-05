@@ -34,7 +34,7 @@ class RigolUI(object):
             
             self.showOscilloskopInformations()
         except ValueError:
-            self.info_msg("You have to turn on your scope and connect it to the computer.")
+            self.info_msg("You have to turn on your scope and connect it to the computer.", gtk.MESSAGE_ERROR)
             self.quit()
         
     def showOscilloskopInformations(self):
@@ -65,8 +65,8 @@ class RigolUI(object):
     def on_window1_delete_event(self, *args):
         self.quit()
         
-    def info_msg(self, msg):
-        dlg = gtk.MessageDialog(parent=self.win, type=gtk.MESSAGE_INFO, buttons=gtk.BUTTONS_OK, message_format=msg)
+    def info_msg(self, msg, messageType=gtk.MESSAGE_INFO):
+        dlg = gtk.MessageDialog(parent=self.win, type=messageType, buttons=gtk.BUTTONS_OK, message_format=msg)
         dlg.run()
         dlg.destroy()
 

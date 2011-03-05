@@ -72,9 +72,6 @@ class RigolUI(object):
 
     def on_buttonShow_clicked(self, *args):
         self.plotFigure()
-        #thread = threading.Thread(target=self.plotFigure)
-        #thread.start()
-        #print "Running in main thread\n"
         
     def plotFigure(self):
         print "Plot figure"
@@ -90,12 +87,8 @@ class RigolUI(object):
             parameter += " -2"
             
         os.system("./rigolCli.py " + parameter)
-            
-        
-
         
 if __name__ == '__main__':
     rigolUiApp = RigolUI()
     rigolUiApp.run()
-    
     

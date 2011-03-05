@@ -27,7 +27,7 @@ from time import strftime
 parser = OptionParser()
 parser.add_option("-p", "--plot", action="store_false", help="Shows the window with the plot")
 parser.add_option("-1", "--hideChannel1", action="store_true", default=False, help="Hides Channel 1 in the plot")
-parser.add_option("-2", "--hideChannel2", action="store_true", default=False, help="Hides Channel 1 in the plot")
+parser.add_option("-2", "--hideChannel2", action="store_true", default=False, help="Hides Channel 2 in the plot")
 parser.add_option("-i", "--informations", action="store_false", help="Prints scope informations")
 parser.add_option("-s", "--savePlot", metavar="filename", help="Saves the plot into a image")
 parser.add_option("-t", "--title", metavar="title", help="Set the title of the plot")
